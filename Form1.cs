@@ -14,6 +14,7 @@ namespace ListaDE
 
         private void button_insertar_Click(object sender, EventArgs e)
         {
+
             if(textBox1.Text=="" || textBox2.Text == "")
             {
                 MessageBox.Show("Escribe los datos");
@@ -21,7 +22,43 @@ namespace ListaDE
             }
             else
             {
-                Lista1.crearLista(textBox1.Text, int.Parse(textBox2.Text));
+                Lista1.crearListaFinal(textBox1.Text, int.Parse(textBox2.Text));
+                textBox1.Text = "Escribir aqui";
+                textBox2.Text = "";
+                textBox1.Focus();
+                textBox1.Text = null;
+                textBox2.Text = null;
+            }
+        }
+        private void button_inser_medio_Click(object sender, EventArgs e)
+        {
+            if (textBox1.Text == "" || textBox2.Text == "")
+            {
+                MessageBox.Show("Escribe los datos");
+                return;
+            }
+            else
+            {
+                Lista1.crearListaMedio(textBox1.Text, int.Parse(textBox2.Text), int.Parse(text_insertar.Text));
+                textBox1.Text = "Escribir aqui";
+                textBox2.Text = "";
+                text_insertar.Text = "";
+                textBox1.Focus();
+                textBox1.Text = null;
+                textBox2.Text = null;
+                text_insertar.Text = null;
+            }
+        }
+        private void button_insertarInicio_Click(object sender, EventArgs e)
+        {
+            if (textBox1.Text == "" || textBox2.Text == "")
+            {
+                MessageBox.Show("Escribe los datos");
+                return;
+            }
+            else
+            {
+                Lista1.crearListaInicio(textBox1.Text, int.Parse(textBox2.Text));
                 textBox1.Text = "Escribir aqui";
                 textBox2.Text = "";
                 textBox1.Focus();
@@ -31,10 +68,10 @@ namespace ListaDE
         }
         private void button_eliminar_Click(object sender, EventArgs e)
         {
-            TNodoAsig elim;
+            //TNodoAsig elim;
             if(Lista1.BuscarAsig(textBox1.Text))
             {
-                elim = (TNodoAsig)Lista1.eliminar();
+                //elim = (TNodoAsig)Lista1.eliminar();
                 Lista1.eliminarLista(textBox1.Text);
                 textBox1.Text = "";
                 textBox2.Text = "";
@@ -59,7 +96,7 @@ namespace ListaDE
         }
         private void button_anterior_Click(object sender, EventArgs e)
         {
-            if(Lista1.BuscarAsig(textBox1.Text) == true)
+            if(Lista1.BuscarAsig(textBox1.Text) == true && (TNodoAsig)Lista1.getAntCursor() != null)
             {
                 TNodoAsig nodoAnterior = (TNodoAsig)Lista1.getAntCursor();
                 textBox1.Text = nodoAnterior.dameAsig();
@@ -67,13 +104,13 @@ namespace ListaDE
             }
             else
             {
-                MessageBox.Show("La lista no tiene Sucesor");
-            }
+                MessageBox.Show("La lista no tiene Antecesor");
         }
+            }
         private void button_siguiente_Click(object sender, EventArgs e)
         {
             TNodoAsig nodoSucesor;
-            if(Lista1.BuscarAsig(textBox1.Text) == true)
+            if(Lista1.BuscarAsig(textBox1.Text) == true && (TNodoAsig) Lista1.getProxCursor() != null)
             {
                 nodoSucesor = (TNodoAsig)Lista1.getProxCursor();
                 textBox1.Text = nodoSucesor.dameAsig();
@@ -118,5 +155,17 @@ namespace ListaDE
         {
 
         }
+
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void text_insertar_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

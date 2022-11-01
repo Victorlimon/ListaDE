@@ -5,8 +5,7 @@ namespace ListaDE
     class TDobleNodo
     {
         public TDobleNodo pEnlace;
-        public TDobleNodo qEnlace;
-
+        public TDobleNodo qEnlace; 
 
         public TDobleNodo()
         {
@@ -17,12 +16,9 @@ namespace ListaDE
 
     class TLista
     {
-
         public TDobleNodo primero;
         public TDobleNodo ultimo;
         public TDobleNodo cursor;
-        public TDobleNodo nuevo;
-
 
 
         public TLista()
@@ -30,7 +26,6 @@ namespace ListaDE
             primero = null;
             ultimo = null;
             cursor = null;
-            //nuevo = null;
         }
 
         public void inicializar()
@@ -38,7 +33,6 @@ namespace ListaDE
             primero = null;
             ultimo = null;
             cursor = null;
-            //nuevo = null;
         }
 
 
@@ -49,30 +43,63 @@ namespace ListaDE
             else
                 return false;
         }
-        public void insertar(TDobleNodo nodo)
+        public void insertarinicio(TDobleNodo nodo)  // Insertar al principio de la lista
         {
             if (vacia())
             {
                 primero = nodo;
                 ultimo = nodo;
                 cursor = nodo;
-                //nuevo = nodo;
+            }
+
+
+            else
+            {
+                primero.qEnlace = nodo;
+                nodo.pEnlace = primero;
+                cursor = nodo;
+                primero = nodo;
+            };
+            nodo.qEnlace = null;
+        }
+        public void insertarMedio(TDobleNodo nodo, int posicion)
+        {
+            if (posicion == 1)
+                insertarinicio(nodo);
+            else
+            {
+                int vcont = 2;
+                TDobleNodo temp = primero;
+                while (vcont < posicion)
+                {
+                    temp = temp.pEnlace;
+                    vcont++;
+                }
+                nodo.pEnlace = temp.pEnlace;
+                nodo.qEnlace = temp;
+                temp.pEnlace.qEnlace = nodo;
+                temp.pEnlace = nodo;
+            }
+        }
+        public void insertarfinal(TDobleNodo nodo) //Inseratar al final de la lista  
+        {
+            if (vacia())
+            {
+                primero = nodo;
+                ultimo = nodo;
+                cursor = nodo;
             }
 
 
             else
             {
                 ultimo.pEnlace = nodo;
-                //nuevo.qEnlace = nodo;
-                //nuevo.qEnlace = ultimo;
-                ultimo = nodo;
+                nodo.qEnlace = ultimo;
                 cursor = nodo;
+                ultimo = nodo;
             }
-            //nuevo = null;
             nodo.pEnlace = null;
-            //nodo.qEnlace = null;
         }
-
         public TDobleNodo eliminarprimero()
         {
             if (vacia())
@@ -85,9 +112,9 @@ namespace ListaDE
                 {
                     if (cursor == primero)
                     {
-                        cursor = getProxCursor();
+                        cursor = cursor.pEnlace;
                         primero = primero.pEnlace;
-
+                        primero.qEnlace = null;
                     }
                 }
                 return primero;
@@ -106,17 +133,30 @@ namespace ListaDE
                     return eliminarprimero();
                 else
                 {
-                    pTemp = getAntCursor();
+                    pTemp = cursor.qEnlace;
                     pTemp.pEnlace = cursor.pEnlace;
                     if (cursor == ultimo)
+                    {
                         ultimo = pTemp;
-                    cursor = pTemp.pEnlace;
+                        cursor = pTemp.pEnlace;
+                        return cursor;
+                    }
+                    cursor.pEnlace.qEnlace = pTemp;
                     return cursor;
                 }
             }
         }
-
-
+        public string mostrar()
+        {
+            string vProducto = "";
+            TDobleNodo temp = primero;
+            while (temp != null)
+            {
+                vProducto += temp.ToString() + Environment.NewLine;
+                temp = temp.pEnlace;
+            }
+            return vProducto;
+        }
         public TDobleNodo getPrimero()
         {
             return primero;
@@ -141,18 +181,13 @@ namespace ListaDE
         }
         public TDobleNodo getAntCursor()
         {
-            TDobleNodo pTemp;
 
             if ((cursor != null) && (cursor != primero))
             {
-                pTemp = primero;
-                while (pTemp.pEnlace != cursor)
-                    pTemp = pTemp.pEnlace;
-                return pTemp;
+                return cursor.qEnlace;
             }
             else
                 return null;
-
         }
 
         public void setCursor(TDobleNodo p)

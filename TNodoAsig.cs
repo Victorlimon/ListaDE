@@ -31,12 +31,23 @@ namespace ListaDE
     {
         public TLisAsig() : base() { }
 
-        public void crearLista(string a, int hr)
+        public void crearListaFinal(string a, int hr)
         {
-            insertar(new TNodoAsig(a, hr));
+            insertarfinal(new TNodoAsig(a, hr));
         }
-
-        public TDobleNodo sucessor(string a)
+        public void crearListaMedio(string a, int hr, int posicion)
+        {
+            insertarMedio(new TNodoAsig(a, hr), posicion);
+        }
+        public void crearListaInicio(string a, int hr)
+        {
+            insertarinicio(new TNodoAsig(a, hr));
+        }
+        public string mostraLista()
+        {
+            return mostrar();
+        }
+        public TDobleNodo sucessor()
         {
             return getProxCursor();
         }
